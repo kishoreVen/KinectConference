@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Windows.Kinect;
+using System;
+using System.IO;
 
 public enum DepthViewMode
 {
@@ -217,6 +219,7 @@ public class DepthSourceView : MonoBehaviour
 				avg = avg * _DepthScale;
 				
 				_Vertices[smallIndex].z = (float)avg;
+
 				var colorSpacePoint = colorSpace[(y * frameDesc.Width) + x];
 				
 				// Update UV mapping with CDRP
@@ -229,7 +232,24 @@ public class DepthSourceView : MonoBehaviour
 				
 			}
 		}
-		
+
+		/*
+		//get vertices depth position
+		if (Input.GetButtonDown ("Fire1")) {
+			using (StreamWriter writer = new StreamWriter("Assets/Resources/test1.txt")) {
+				for(int i = 0; i < _Vertices.Length; i++){
+					float z = _Vertices[i].z;
+					string ss;
+					ss = z.ToString ();
+					
+					//writer = new StreamWriter("Assets/Resources/"+fileName+".txt");
+					writer.WriteLine (ss);
+				}
+				writer.Close();
+				
+			}
+		}
+		*/
 		_Mesh.vertices = _Vertices;
 		_Mesh.uv = _UV;
 		_Mesh.triangles = _Triangles;
